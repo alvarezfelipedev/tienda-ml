@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Catálogo — Automatización Industrial</title>
+<meta name="description" content="Catálogo de PLCs, terminales y componentes de automatización industrial." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap nameplate">
+    <div class="brand">
+      Panel de Catálogo
+      <small>Automatización industrial · PLCs · Bornes de terminal</small>
+    </div>
+    <div class="tag">EN LÍNEA</div>
+  </div>
+  <div class="din-rail" aria-hidden="true">
+    <svg viewBox="0 0 1200 14" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="0" y="5" width="1200" height="4" fill="#f2a900"></rect>
+      <g fill="#10243e">
+        <!-- terminal ticks -->
+      </g>
+    </svg>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <h1>Catálogo de productos</h1>
+    <p class="lede">Publicaciones activas, tomadas en vivo desde MercadoLibre. Se agregan y sacan productos automáticamente a medida que cambia el catálogo real.</p>
+    <div class="search-field">
+      <label for="search">FILTRAR</label>
+      <input id="search" type="text" placeholder="buscar por nombre..." autocomplete="off" />
+    </div>
+  </div>
+</section>
+
+<section class="catalog">
+  <div class="wrap">
+    <div class="catalog-meta">
+      <span id="count-label">Cargando catálogo…</span>
+      <span id="updated-label"></span>
+    </div>
+    <div id="grid" class="grid" aria-live="polite"></div>
+  </div>
+</section>
+
+<div class="din-rail" aria-hidden="true">
+  <svg viewBox="0 0 1200 14" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="0" y="5" width="1200" height="4" fill="#c3d0dd"></rect>
+  </svg>
+</div>
+<footer class="site">
+  <div class="wrap" style="display:flex; justify-content:space-between; width:100%; flex-wrap:wrap; gap:8px;">
+    <span>Catálogo generado automáticamente desde MercadoLibre</span>
+    <span id="footer-count"></span>
+  </div>
+</footer>
+
+<script src="js/app.js"></script>
+</body>
+</html>
