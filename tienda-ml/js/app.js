@@ -62,7 +62,17 @@
     try {
       const res = await fetch("/api/products");
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Error al cargar el catálogo");
+      if (!res.ok) {
+        if (data.needsAuth) {
+          grid.innerHTML = `<div class="error-state" style="grid-column:1/-1;">
+            Todavía no conectaste tu cuenta de MercadoLibre.<br/><br/>
+            <a class="buy-btn" href="/api/auth/login">Conectar cuenta de MercadoLibre</a>
+          </div>`;
+          countLabel.textContent = "Sin conectar";
+          return;
+        }
+        throw new Error(data.error || "Error al cargar el catálogo");
+      }
 
       allItems = data.items || [];
       applyFilter();

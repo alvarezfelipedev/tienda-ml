@@ -1,6 +1,8 @@
 // GET /api/product?id=MLAxxxxxxxxx
 // Devuelve el detalle completo de una publicación puntual.
 
+const { getAccessToken } = require("./_lib/ml-auth");
+
 module.exports = async (req, res) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Cache-Control", "s-maxage=30, stale-while-revalidate=120");
@@ -12,10 +14,18 @@ module.exports = async (req, res) => {
   }
 
   try {
-    const itemRes = await fetch(`https://api.mercadolibre.com/items/${encodeURIComponent(id)}`);
+    const token = await getAccessToken();
+    const authHeader = { Authorization: `Bearer ${token}` };
+
+    const itemRes = await fetch(`https://api.mercadolibre.com/items/${encodeURIComponent(id)}`, {
+      headers: authHeader,
+    });
     if (!itemRes.ok) {
       res.status(itemRes.status === 404 ? 404 : 502).json({
-        error: itemRes.status === 404 ? "Ese producto no existe o ya no está activo." : "Error al consultar MercadoLibre.",
+        error:
+          itemRes.status === 404
+            ? "Ese producto no existe o ya no está activo."
+            : "Error al consultar MercadoLibre.",
       });
       return;
     }
@@ -24,7 +34,8 @@ module.exports = async (req, res) => {
     let description = "";
     try {
       const descRes = await fetch(
-        `https://api.mercadolibre.com/items/${encodeURIComponent(id)}/description`
+        `https://api.mercadolibre.com/items/${encodeURIComponent(id)}/description`,
+        { headers: authHeader }
       );
       if (descRes.ok) {
         const descJson = await descRes.json();
@@ -51,6 +62,12 @@ module.exports = async (req, res) => {
       description,
     });
   } catch (err) {
-    res.status(502).json({ error: "No se pudo obtener el producto: " + err.message });
+    const notConnected = String(err.message).startsWith("NOT_CONNECTED");
+    res.status(notConnected ? 401 : 502).json({
+      error: notConnected
+        ? "Todavía no conectaste tu cuenta de MercadoLibre. Entrá a /api/auth/login para autorizarla."
+        : "No se pudo obtener el producto: " + err.message,
+      needsAuth: notConnected,
+    });
   }
 };
